@@ -15,14 +15,21 @@ user_id=$(echo "$response" | sed -n 's/.*"id": \(.*\),/\1/p')
 created_at=$(echo "$response" | sed -n 's/.*"created_at": "\(.*\)",/\1/p')
 
 
-# Imprimir el mensaje
+
 message="Hola $github_user. User ID: $user_id. Cuenta fue creada el: $created_at."
-echo $message
 
 
 fecha=$(date +"%d-%m-%Y")
-echo "Fecha: $fecha"
 
 mkdir -p "/tmp/$fecha"
 
 echo "$message" >> "/tmp/$fecha/saludos.log"
+
+cat "/tmp/$fecha/saludos.log"
+
+
+
+#Configuración para que el script se ejecute cada 5 minutos
+# crontab -e
+# Agregar la siguiente línea:
+# */5 * * * *  cd "ruta del script" && ./script.sh
