@@ -1,0 +1,11 @@
+[Unit]
+Description=Descripcion de tu servicio
+After=network.target
+
+[Service]
+ExecStart="/media/elvis/Archivos/script.sh"
+Type=simple
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
