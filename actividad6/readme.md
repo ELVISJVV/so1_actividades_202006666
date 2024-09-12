@@ -24,12 +24,60 @@
     - Después del segundo fork: Tanto el proceso padre como el proceso hijo ejecutan este fork, lo que significa que cada uno de ellos crea un nuevo proceso hijo. Ahora son 4 procesos.
     - Después del tercer fork: Todos los 4 procesos (el padre y los 3 hijos) ejecutan este fork, por lo que cada uno genera un nuevo hijo. Creando 8 procesos.
 
-2. Utilizando un sistema Linux, escriba un programa en C que cree un proceso hijo (fork) que finalmente se convierta en un proceso zombie. Este proceso zombie debe
-permanecer en el sistema durante al menos 60 segundos.
+2. Utilizando un sistema Linux, escriba un programa en C que cree un proceso hijo (fork) que finalmente se convierta en un proceso zombie. Este proceso zombie debe permanecer en el sistema durante al menos 60 segundos.
+
+    ```c
+    #include <stdio.h>
+    #include <stdlib.h>
+    #include <unistd.h>
+
+    int main()
+    {
+        pid_t pid = fork(); // Crear un proceso hijo
+
+        if (pid == 0)
+        {
+            // Este es el proceso hijo
+            printf("El proceso hijo termina ahora.\n");
+            exit(0); // El proceso hijo termina aquí
+        }
+        else
+        {
+            // Este es el proceso padre
+            printf("Se ejecuta el proceso padre y el hijo se convierte en zombie\n");
+
+            // Esperar 60 segundos antes de terminar
+            sleep(60);
+
+            printf("Han pasado 60 segundos y finaliza el proceso padre.\n");
+        }
+
+        return 0;
+    }
+    ```
+
+    - Compilar el programa con el siguiente comando:
+        ```bash
+        gcc -o zombie zombie.c
+        ```
+
+    - Ejecutar el programa con el siguiente comando:
+        ```bash
+        ./zombie
+        ```
+
+    - Para verificar que el proceso hijo se convirtió en un proceso zombie, se pueden utilizar los siguientes comandos:
+        ```bash
+        ps aux | grep zombie
+        ps aux | grep Z
+        ```
+![alt text](images/ejecucion.png)
+
+![alt text](images/ps_aux.png)
 
 3. Usando el siguiente código como referencia, completar el programa para que sea
 ejecutable y responder las siguientes preguntas:
-    
+
     ```c
     pid_t pid;
 
